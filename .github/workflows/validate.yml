@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -27,11 +29,19 @@ jobs:
         run: python tests/browser_smoke.py
         env:
           ASTRA_REQUIRE_WEBGL: '1'
+      - name: Real file and HTTP navigation, including v1.0.0 baseline
+        run: python tests/browser_navigation.py
+        env:
+          ASTRA_REQUIRE_WEBGL: '1'
+          ASTRA_BASELINE_REF: c915a5fc7f02dee437bc985163c41f2ff87269f2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: astra-explosion-site-and-tests
+          name: astra-explosion-v1.0.1-opening-audit
           path: |
             dist/
             test-results/
+            LICENSE
+            THIRD_PARTY_NOTICES.md
+            docs/OPENING.md
           if-no-files-found: error

@@ -1,2 +1,49 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f3ee"><meta name="description" content="Explore an iPhone 17 Pro as a source-traceable 3D exploded view. 21 Apple-diagram assemblies, three illustrative groups, and no external runtime dependencies."><title>Astra Explosion — iPhone 17 Pro, unfolded.</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23d76537'/%3E%3Cpath d='m9 14 11-6 11 6-11 6zM9 20l11 6 11-6M9 26l11 6 11-6' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E"><link rel="stylesheet" href="./src/style.css"></head><body><div id="app"></div><noscript>This 3D exhibit requires JavaScript. Its source documentation is available in README.md and docs/SOURCES.md.</noscript><script type="module" src="./src/main.js"></script></body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f3ee"><meta name="description" content="Explore an iPhone 17 Pro as a source-traceable 3D exploded view. 21 Apple-diagram assemblies, three illustrative groups, and no external runtime dependencies."><title>Astra Explosion — iPhone 17 Pro, unfolded.</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23d76537'/%3E%3Cpath d='m9 14 11-6 11 6-11 6zM9 20l11 6 11-6M9 26l11 6 11-6' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E"><link rel="stylesheet" href="./src/style.css"></head><body><section id="boot-help" role="status" style="position:fixed;inset:0;z-index:10000;padding:clamp(24px,7vw,96px);overflow:auto;background:#f5f3ee;color:#252a2a;font:16px/1.7 system-ui,sans-serif">
+<h1>ASTRA / EXPLOSION</h1><h2>iPhone 17 Pro · 正在启动交互展台</h2>
+<p id="boot-message">若一直停留在此处，请将完整 HTML 下载到电脑，再用 Chrome、Edge 或 Safari 打开。聊天附件预览不等于已部署的网站；预览器可能不执行 JavaScript。</p>
+<p>离线入口：<strong>astra-explosion-standalone.html</strong> 或构建包中的 <strong>index.html</strong>。不要只下载源代码目录的 index.html。</p>
+<p>源码启动：在项目目录执行 <code>npm run dev</code>，然后访问 <code>http://127.0.0.1:3017</code>。</p>
+<noscript><p><strong>JavaScript 未运行。</strong>请使用允许脚本的完整浏览器；本展台无法在禁用脚本的预览器中交互。</p></noscript>
+<pre id="boot-detail" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+</section>
+<script>
+(function () {
+  var help = document.getElementById('boot-help'), message = document.getElementById('boot-message');
+  var detail = document.getElementById('boot-detail'), finished = false, failed = false, timer;
+  function fail(reason) {
+    if (finished || failed) return;
+    failed = true;
+    message.textContent = '展台未能启动。请下载完整离线 HTML 后打开，或使用项目的本地服务器。错误详情如下；这不是模型仍在加载。';
+    detail.textContent = String(reason || '脚本被阻止、文件不完整或浏览器不支持所需功能。');
+    clearInterval(timer);
+  }
+  window.addEventListener('error', function (event) {
+    fail(event.message || ('资源无法加载：' + (event.target && event.target.src || 'unknown')));
+  }, true);
+  window.addEventListener('unhandledrejection', function (event) { fail(event.reason); });
+  // A standalone file must not navigate to its parent folder on a brand click.
+  document.addEventListener('click', function (event) {
+    var element = event.target;
+    while (element && element !== document) {
+      if (element.classList && element.classList.contains('brand')) {
+        event.preventDefault();
+        var reset = document.getElementById('reset');
+        if (reset) reset.click();
+        return;
+      }
+      element = element.parentNode;
+    }
+  });
+  var start = Date.now();
+  timer = setInterval(function () {
+    if (document.body.getAttribute('data-ready') === 'true') {
+      finished = true; help.hidden = true; clearInterval(timer); return;
+    }
+    var error = document.getElementById('error');
+    if (error && !error.hidden) { fail(document.getElementById('error-text').textContent); return; }
+    if (Date.now() - start > 20000) fail('启动超过 20 秒：检查附件预览限制、浏览器控制台或下载文件是否完整。');
+  }, 100);
+})();
+</script>
+<div id="app"></div><script type="module" src="./src/main.js"></script></body></html>

@@ -1,6 +1,6 @@
 {
   "name": "astra-explosion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "A dependency-free, source-traceable iPhone 17 Pro exploded-view exhibit.",
@@ -8,7 +8,7 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs dist",
-    "check": "node --check src/main.js && node --check src/renderer.js && node --check src/geometry.js",
+    "check": "node --check src/main.js && node --check src/renderer.js && node --check src/geometry.js && node --check scripts/build.mjs",
     "test": "node --test tests/*.test.mjs"
   },
   "engines": { "node": ">=22" },
