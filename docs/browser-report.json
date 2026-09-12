@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-12",
+  "passed": 18,
+  "checks": [
+    "Desktop startup: 24 assemblies, 80 mesh batches",
+    "Animated one-click explosion",
+    "Continuous separation slider",
+    "Source-linked search and isolated inspection",
+    "Deselect exits isolation and restores whole-model framing",
+    "Chinese search and empty results",
+    "Per-assembly visibility toggles",
+    "Category filter and nonoverlapping inventory with 24 labels",
+    "Actual canvas ray/triangle picking selects the battery",
+    "Orbit gesture changes camera without accidental selection",
+    "Finish selection and turntable toggle",
+    "Scene PNG export contains a valid PNG",
+    "Source dialog and native Escape close",
+    "Reset and shortcuts; typing does not trigger shortcuts",
+    "No page errors or external runtime network requests",
+    "390x844: no horizontal overflow; inventory, drawer, search, isolate, close",
+    "320x568: no horizontal overflow; inventory, drawer, search, isolate, close",
+    "844x390: no horizontal overflow; inventory, drawer, search, isolate, close"
+  ],
+  "renderers": [
+    "canvas2d"
+  ],
+  "mode": "standalone HTML embedded with page.set_content",
+  "limitations": [
+    "Physical devices and real multitouch hardware not tested.",
+    "Browser URL navigation / actual file:// launch is not exercised by this harness.",
+    "WebGL 2 was unavailable in this environment; browser tests exercised the depth-buffered Canvas 2D fallback, not the GPU path."
+  ]
+}

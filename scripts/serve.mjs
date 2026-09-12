@@ -1,0 +1,7 @@
+import http from 'node:http';
+import { readFile, stat } from 'node:fs/promises';
+import path from 'node:path';
+const root=path.resolve(process.argv[2]||'.'),port=Number(process.env.PORT||3017),host=process.env.HOST||'127.0.0.1';
+if(!Number.isInteger(port)||port<1||port>65535)throw Error('PORT must be an integer from 1 to 65535');
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.md':'text/plain; charset=utf-8'};
+http.createServer(async(req,res)=>{try{if(!['GET','HEAD'].includes(req.method)){res.writeHead(405);res.end();return;}let name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const resolved=path.resolve(root,'.'+name);if(resolved!==root&&!resolved.startsWith(root+path.sep)){res.writeHead(403);res.end('Forbidden');return;}let file=resolved;const s=await stat(file);if(s.isDirectory())file=path.join(file,'index.html');const data=await readFile(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:data);}catch(e){res.writeHead(e.code==='ENOENT'?404:400,{'Content-Type':'text/plain'});res.end(e.code==='ENOENT'?'Not found':'Bad request');}}).listen(port,host,()=>console.log(`Astra Explosion: http://${host}:${port}\nServing ${root}`));
