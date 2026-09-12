@@ -51,3 +51,9 @@ ASTRA_REQUIRE_WEBGL=1 python tests/browser_smoke.py
 ```
 
 仓库 CI 配置要求 WebGL 2，预期在 CI 浏览器的软件 GL 环境中测试该路径。**配置存在不等于 CI 已通过**；请查看相应提交的 Actions 结果。实际发布前，应增加用户目标浏览器与显卡的验证。
+
+## 已核验的 GitHub Actions 结果
+
+应用提交 `b9f58b20250bd5b1e3fe786068a352aefb684262` 的 [CI 运行 #1](https://github.com/Nuos/astra-explosion/actions/runs/34705149615) 已于 2026-09-12 16:26:07 UTC 成功完成。语法检查、10 项 Node 测试、静态构建、强制 WebGL 2 的 18 组浏览器检查及产物上传全部通过。
+
+下载的 CI 报告明确记录 `renderers: ["webgl2"]`，另存为 `ci-browser-report.json`。CI 的单文件 HTML 与本地构建逐字节一致。CI 使用 Chromium 的 SwiftShader 软件 GL，不代表真实显卡或手机硬件性能测试。前表的 Canvas 2D 结果仍专指本地环境；两条渲染路径分别有通过记录。
